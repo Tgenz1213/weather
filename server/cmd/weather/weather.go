@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"server/api"
+	"server/internal/api"
 	"server/internal/controller"
 	"server/internal/service"
 	"time"

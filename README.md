@@ -16,9 +16,9 @@ This application consists of a Go backend API and a React frontend, containerize
 
 ## How to Run
 
-1. Extract the contents of the zip file to a directory of your choice.
+1. Extract the contents of the zip file to a directory of your choice (if downloaded from the submission portal) or clone this repository to a directory of your choice.
 
-2. Open a terminal or command prompt and navigate to the extracted directory.
+2. Open a terminal or command prompt and navigate to the monorepo directory.
 
 3. Ensure Docker and Docker Compose are installed on your system.
 
@@ -27,7 +27,6 @@ This application consists of a Go backend API and a React frontend, containerize
 ```bash
 docker compose up
 ```
-
 
 This command will build and start both the frontend and backend services.
 

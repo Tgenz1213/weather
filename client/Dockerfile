@@ -14,9 +14,13 @@ FROM nginx:stable-alpine
 
 COPY --from=build /app/dist /usr/share/nginx/html
 
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY nginx.conf.template /etc/nginx/nginx.conf.template
 
-EXPOSE 3000
+COPY start-nginx.sh /usr/local/bin/start-nginx.sh
 
-CMD ["nginx", "-g", "daemon off;"]
+RUN chmod +x /usr/local/bin/start-nginx.sh
+
+EXPOSE 80
+
+ENTRYPOINT ["/usr/local/bin/start-nginx.sh"]
 

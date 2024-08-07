@@ -16,27 +16,37 @@ This application consists of a Go backend API and a React frontend, containerize
 
 ## How to Run
 
-1. Extract the contents of the zip file to a directory of your choice.
+1. Clone the project to a directory of your choice.
+
+```bash
+cd C:/your/directory
+git clone https://github.com/Tgenz1213/weather
+```
 
 2. Open a terminal or command prompt and navigate to the extracted directory.
 
-3. Ensure Docker and Docker Compose are installed on your system.
+```bash
+cd C:/your/directory/weather
+```
 
-4. Run the following command to start the application:
+3. Rename or duplicate .env.example to ".env.development.local"
+
+4. Ensure Docker and Docker Compose are installed on your system.
+
+5. Run the following command to start the application:
 
 ```bash
 docker compose up
 ```
 
-
 This command will build and start both the frontend and backend services.
 
-5. Once the containers are running, open a web browser and navigate to:
+6. Once the containers are running, open a web browser and navigate to:
 
 http://localhost:3000/
 
 
-6. You should now see the Weather Forecast application. Enter a street address and zip code to get the weather forecast.
+7. You should now see the Weather Forecast application. Enter a street address (including the building number) and zip code to get the weather forecast.
 
 ## Troubleshooting
 
@@ -46,6 +56,5 @@ http://localhost:3000/
 ```bash
 docker compose logs
 ```
-
 
 For further assistance, please contact Timothy Genz at timothy.genz@yahoo.com.

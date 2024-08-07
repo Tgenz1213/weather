@@ -31,6 +31,10 @@ cd C:/your/directory/weather
 
 3. Rename or duplicate .env.example to ".env.development.local"
 
+```bash
+cp .env.example .env.development.local
+```
+
 4. Ensure Docker and Docker Compose are installed on your system.
 
 5. Run the following command to start the application:
@@ -43,7 +47,7 @@ This command will build and start both the frontend and backend services.
 
 6. Once the containers are running, open a web browser and navigate to:
 
-http://localhost:3000/
+[http://localhost:3000/](http://localhost:3000/)
 
 
 7. You should now see the Weather Forecast application. Enter a street address (including the building number) and zip code to get the weather forecast.
@@ -57,4 +61,4 @@ http://localhost:3000/
 docker compose logs
 ```
 
-For further assistance, please contact Timothy Genz at timothy.genz@yahoo.com.
+For further assistance, please open an issue on the [GitHub repository](https://github.com/Tgenz1213/weather/issues) or contact Timothy Genz at timothy.genz@yahoo.com.

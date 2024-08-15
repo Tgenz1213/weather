@@ -32,9 +32,8 @@ services:
     volumes:
       - ./client/nginx.conf.template:/etc/nginx/nginx.conf.template
     env_file:
-      - ./client/.env.development.local
+      - ./client/.env.development
     
-
 volumes:
   redis_data:
     driver: local

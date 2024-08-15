@@ -36,6 +36,10 @@ func NewGeocodingService(url string, client *http.Client) *GeocodingService {
 	}
 }
 
+const (
+	PUBLIC_AR_CURRENT = 4
+)
+
 // GetCoordinates retrieves coordinates for a given location from Census.gov's forward geocoding API.
 func (g *GeocodingService) GetCoordinates(ctx context.Context, street, zip string) (*Location, error) {
 	preparedStreet, err := prepareStreet(street)
@@ -50,7 +54,7 @@ func (g *GeocodingService) GetCoordinates(ctx context.Context, street, zip strin
 		return nil, err
 	}
 
-	url := fmt.Sprintf("%s/geocoder/locations/address?street=%s&zip=%s&benchmark=4&format=json", g.baseApiURL, preparedStreet, preparedZip)
+	url := fmt.Sprintf("%s/geocoder/locations/address?street=%s&zip=%s&benchmark=%d&format=json", g.baseApiURL, preparedStreet, preparedZip, PUBLIC_AR_CURRENT)
 
 	log.Printf("GeocodingService.GetCoordinates URL: %s", url)
 

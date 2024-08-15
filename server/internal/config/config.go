@@ -2,6 +2,7 @@ package config
 
 import (
 	"flag"
+	"fmt"
 	"os"
 	"path/filepath"
 
@@ -9,24 +10,27 @@ import (
 )
 
 func LoadEnv() error {
-	env := flag.String("env", "example", "Environment to run the application. Default value is 'example' for .env.[example].")
+	env := flag.String("env", "", "Environment to run the application. Default value is 'example' for .env.[example].")
 
 	flag.Parse()
 
-	envFile := ".env." + *env
+	var envFile string
+	if *env == "" {
+		envFile = ".env"
+	} else {
+		envFile = ".env." + *env
+	}
 
 	currentWorkDir, err := os.Getwd()
-
 	if err != nil {
-		return err
+		return fmt.Errorf("error getting current work directory: %v", err)
 	}
 
 	envFilePath := filepath.Join(currentWorkDir, "..", "..", envFile)
 
 	err = godotenv.Load(envFilePath)
-
 	if err != nil {
-		return err
+		return fmt.Errorf("cannot find env file: %v", err)
 	}
 
 	return nil

@@ -29,17 +29,17 @@ git clone https://github.com/Tgenz1213/weather
 cd C:/your/directory/weather
 ```
 
-3. Rename or duplicate .env.example to ".env.development.local"
+3. Rename or duplicate .env.example to ".env.development"
 
 ```bash
-cp .env.example .env.development.local
+cp .env.example .env.development
 ```
 
-Note: ensure the command argument in docker-compose.yml match whatever you name your env file
+4. Ensure the mode in ./.env matches the .env.[MODE] that you wish you use.
 
-4. Ensure Docker and Docker Compose are installed on your system.
+5. Ensure Docker and Docker Compose are installed on your system.
 
-5. Run the following command to start the application:
+6. Run the following command to start the application:
 
 ```bash
 docker compose up
@@ -47,12 +47,12 @@ docker compose up
 
 This command will build and start both the frontend and backend services.
 
-6. Once the containers are running, open a web browser and navigate to:
+7. Once the containers are running, open a web browser and navigate to:
 
 [http://localhost:3000/](http://localhost:3000/)
 
 
-7. You should now see the Weather Forecast application. Enter a street address (including the building number) and zip code to get the weather forecast.
+8. You should now see the Weather Forecast application. Enter a street address (including the building number) and zip code to get the weather forecast.
 
 ## Troubleshooting
 

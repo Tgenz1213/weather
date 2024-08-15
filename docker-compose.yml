@@ -1,14 +1,4 @@
 services:
-  server:
-    container_name: weather_server
-    build: ./server
-    ports:
-      - "8080:8080"
-    depends_on:
-      - redis
-    command:
-      - development.local
-
   redis:
     container_name: weather_cache
     image: redis
@@ -18,17 +8,32 @@ services:
     volumes:
       - redis_data:/data
 
+  server:
+    container_name: weather_server
+    build: 
+      context: ./server
+    environment:
+      - MODE=${MODE}
+    ports:
+      - "8080:8080"
+    depends_on:
+      - redis
+
   client:
     container_name: weather_client
-    build: ./client
+    build: 
+      context: ./client
+    environment:  # For future use
+      - MODE=${MODE}
     ports:
       - "3000:80"
+    depends_on:
+      - server
     volumes:
       - ./client/nginx.conf.template:/etc/nginx/nginx.conf.template
     env_file:
       - ./client/.env.development.local
-    depends_on:
-      - server
+    
 
 volumes:
   redis_data:

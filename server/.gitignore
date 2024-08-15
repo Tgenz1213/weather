@@ -19,7 +19,8 @@ go.work.sum
 
 # env file
 .env
-.env.development
+.env.*
+!.env.example
 
 # Misc
 /.devcontainer

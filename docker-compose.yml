@@ -4,10 +4,10 @@ services:
     build: ./server
     ports:
       - "8080:8080"
-    env_file:
-      - ./server/.env.development
     depends_on:
       - redis
+    command:
+      - development.local
 
   redis:
     container_name: weather_cache

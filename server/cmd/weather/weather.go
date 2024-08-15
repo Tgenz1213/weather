@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"os"
 	"server/internal/api"
+	"server/internal/config"
 	"server/internal/controller"
 	"server/internal/service"
 	"time"
@@ -19,6 +20,12 @@ const (
 // and HTTP routes, then starts the HTTP server.
 func main() {
 	logger := log.New(os.Stdout, "weather_server: ", log.LstdFlags)
+
+	err := config.LoadEnv()
+
+	if err != nil {
+		logger.Fatalf("Error loading environment: %v", err)
+	}
 
 	mux := http.NewServeMux()
 

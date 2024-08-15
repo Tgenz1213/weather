@@ -14,4 +14,4 @@ RUN chmod +x /weather_app
 
 EXPOSE 8080
 
-CMD [ "/weather_app" ]
+ENTRYPOINT [ "/weather_app" ]

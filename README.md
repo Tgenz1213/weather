@@ -14,6 +14,11 @@ This application consists of a Go backend API and a React frontend, containerize
 - Built with React and TypeScript
 - Communicates with the backend API to fetch and display weather data
 
+## Requirements
+
+- Docker
+- Docker Compose
+
 ## How to Run
 
 1. Clone the project to a directory of your choice.
@@ -29,13 +34,14 @@ git clone https://github.com/Tgenz1213/weather
 cd C:/your/directory/weather
 ```
 
-3. Rename or duplicate .env.example to ".env.development"
+3. Rename or duplicate .env.example to ".env.development" in both project folders
 
 ```bash
-cp .env.example .env.development
+cp server/.env.example server/.env.development
+cp client/.env.example client/.env.development
 ```
 
-4. Ensure the mode in ./.env matches the .env.[MODE] that you wish you use.
+4. Ensure the mode in ./.env matches the .env.[MODE] files that you wish you use.
 
 5. Ensure Docker and Docker Compose are installed on your system.
 

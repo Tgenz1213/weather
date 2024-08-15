@@ -35,6 +35,8 @@ cd C:/your/directory/weather
 cp .env.example .env.development.local
 ```
 
+Note: ensure the command argument in docker-compose.yml match whatever you name your env file
+
 4. Ensure Docker and Docker Compose are installed on your system.
 
 5. Run the following command to start the application:

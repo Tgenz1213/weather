@@ -55,8 +55,9 @@ func TestGetNonExistentForecast(t *testing.T) {
 	ctx := context.Background()
 	key := "non_existent_forecast"
 
-	_, err := redisService.GetForecast(ctx, key)
-	assert.Error(t, err, "TestGetNonExistentForecast: GetForecast assert error")
+	forecast, err := redisService.GetForecast(ctx, key)
+	assert.NoError(t, err, "Getting nonexistent key should not return an error")
+	assert.Nil(t, forecast, "Getting nonexistent key should return nil forecast")
 }
 
 func TestExpiration(t *testing.T) {
@@ -73,9 +74,9 @@ func TestExpiration(t *testing.T) {
 
 		mr.FastForward(2 * time.Second)
 
-		_, err = redisService.GetForecast(ctx, key)
-		assert.Error(t, err, "Getting expired forecast should produce an error")
-		assert.Contains(t, err.Error(), "key does not exist", "Error should indicate that the key does not exist")
+		forecast, err = redisService.GetForecast(ctx, key)
+		assert.NoError(t, err, "Getting expired forecast should not produce an error")
+		assert.Nil(t, forecast, "Getting expired forecast should return nil forecast")
 	})
 
 	t.Run("Key does not expire before set time", func(t *testing.T) {

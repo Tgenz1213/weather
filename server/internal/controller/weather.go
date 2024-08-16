@@ -33,6 +33,20 @@ func (wc *WeatherController) GetWeather(w http.ResponseWriter, r *http.Request) 
 	street := r.URL.Query().Get("street")
 	zip := r.URL.Query().Get("zip")
 
+	cacheKey := "forecast_" + zip
+
+	// Check cache first
+	forecast, err := wc.getForecastFromCache(ctx, cacheKey)
+
+	if err != nil {
+		wc.handleError(w, err, http.StatusInternalServerError)
+		return
+	} else if forecast != nil {
+		wc.respondWithJSON(w, forecast)
+		return
+	}
+
+	// Add forecast to the cache
 	location, err := wc.getCoordinates(ctx, street, zip)
 
 	if err != nil {
@@ -40,9 +54,7 @@ func (wc *WeatherController) GetWeather(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	cacheKey := "forecast_" + zip
-
-	forecast, err := wc.getForecastFromApi(ctx, location)
+	forecast, err = wc.getForecastFromApi(ctx, location)
 
 	if err != nil {
 		wc.handleError(w, err, http.StatusInternalServerError)

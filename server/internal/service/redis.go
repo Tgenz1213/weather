@@ -68,7 +68,8 @@ func (r *RedisService) GetForecast(ctx context.Context, key string) (*model.Fore
 	val, err := r.client.Get(ctx, key).Result()
 
 	if err == redis.Nil {
-		return nil, fmt.Errorf("key does not exist: %s", key)
+		// Nothing found
+		return nil, nil
 	} else if err != nil {
 		return nil, fmt.Errorf("error retreiving key from Redis: %w", err)
 	}

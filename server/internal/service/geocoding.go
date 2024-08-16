@@ -7,7 +7,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -55,8 +54,6 @@ func (g *GeocodingService) GetCoordinates(ctx context.Context, street, zip strin
 	}
 
 	url := fmt.Sprintf("%s/geocoder/locations/address?street=%s&zip=%s&benchmark=%d&format=json", g.baseApiURL, preparedStreet, preparedZip, PUBLIC_AR_CURRENT)
-
-	log.Printf("GeocodingService.GetCoordinates URL: %s", url)
 
 	geoData, err := g.makeRequest(ctx, url)
 

@@ -73,6 +73,7 @@ func TestGetWeather(t *testing.T) {
 	forecast := &model.Forecast{StartTime: startTime, EndTime: endTime, DetailedForecast: "Sunny, with a high near 79. South wind 0 to 10 mph."}
 
 	// Mocking the behavior
+	redisService.On("GetForecast", mock.Anything, cacheKey).Return(nil, nil).Once()
 	geocodingService.On("GetCoordinates", mock.Anything, street, zipCode).Return(location, nil).Once()
 	weatherService.On("GetForecast", mock.Anything, location.Lat, location.Lon).Return(forecast, nil).Once()
 	redisService.On("SetForecast", mock.Anything, cacheKey, forecast, 1*time.Hour).Return(nil).Once()

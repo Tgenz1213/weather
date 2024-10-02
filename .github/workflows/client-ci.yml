@@ -1,0 +1,34 @@
+name: Client CI
+
+on:
+  push:
+    paths:
+      - 'weather/client/**'
+  pull_request:
+    paths:
+      - 'weather/client/**'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '22'
+
+    - name: Install dependencies
+      run: yarn install
+      working-directory: weather/client
+
+    - name: Run TypeScript linter
+      run: yarn lint
+      working-directory: weather/client
+
+    - name: Run tests
+      run: yarn test
+      working-directory: weather/client

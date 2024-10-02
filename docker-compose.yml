@@ -10,29 +10,31 @@ services:
 
   server:
     container_name: weather_server
-    build: 
-      context: ./server
+    build: ./server
     environment:
       - MODE=${MODE}
     ports:
       - "8080:8080"
     depends_on:
       - redis
+    develop:
+      watch:
+        - path: ./server
+          action: rebuild
 
   client:
     container_name: weather_client
-    build: 
-      context: ./client
-    environment:  # For future use
+    build: ./client
+    environment:
       - MODE=${MODE}
     ports:
       - "3000:80"
     depends_on:
       - server
-    volumes:
-      - ./client/nginx.conf.template:/etc/nginx/nginx.conf.template
-    env_file:
-      - ./client/.env.development
+    develop:
+      watch:
+        - path: ./client
+          action: rebuild
     
 volumes:
   redis_data:

@@ -1,48 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { getWeather } from '../../services/api';
-
-interface WeatherData {
-    startTime: string;
-    endTime: string;
-    detailedForecast: string;
-}
+import React, { useState } from 'react';
+import { useWeather } from '../../hooks/useWeather';
 
 const WeatherForm: React.FC = () => {
     const [street, setStreet] = useState<string>('');
     const [zip, setZip] = useState<string>('');
-    const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
-    const [error, setError] = useState<string | null>(null);
-    const [loading, setLoading] = useState<boolean>(false);
+    const { weatherData, error, loading, fetchWeather } = useWeather(street, zip);
 
-    useEffect(() => {
-        console.log('Current weatherData:', weatherData);
-    }, [weatherData]);
-
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = (e: React.FormEvent) => {
+        console.log('calling handleSubmit');
         e.preventDefault();
-        setLoading(true);
-        setError(null);
-        setWeatherData(null);
-
-        try {
-            console.log('Fetching weather data for:', { street, zip });
-            const data = await getWeather(street, zip);
-            console.log('API response:', data);
-
-            if (data && data.startTime && data.endTime && data.detailedForecast) {
-                setWeatherData(data);
-                setError(null);
-            } else {
-                setError('Invalid data structure received from API');
-                console.log(data);
-                setWeatherData(null);
-            }
-        } catch (err) {
-            console.error('API error:', err);
-            setError('An error occurred while fetching weather data');
-        } finally {
-            setLoading(false);
-        }
+        fetchWeather();
     };
 
     return (

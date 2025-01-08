@@ -11,6 +11,51 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+type forecastTestCase struct {
+	name           string
+	key            string
+	expiration     time.Duration
+	fastForward    time.Duration
+	forecast       *model.Forecast
+	expectedResult *model.Forecast
+	expectedError  error
+	setErrMsg      string
+	getErrMsg      string
+	getReturnMsg   string
+}
+
+var forecastTestCases = []forecastTestCase{
+	{
+		name:           "Set and get success",
+		key:            "test_forecast",
+		expiration:     10 * time.Second,
+		fastForward:    0 * time.Second,
+		forecast:       &model.Forecast{DetailedForecast: "Sunny, with a high near 79. South wind 0 to 10 mph."},
+		expectedResult: &model.Forecast{DetailedForecast: "Sunny, with a high near 79. South wind 0 to 10 mph."},
+		expectedError:  nil,
+		setErrMsg:      "Setting forecast should not return an error",
+		getErrMsg:      "Getting forecast should not return an error",
+		getReturnMsg:   "Getting forecast should return same forecast",
+	},
+	{
+		name:           "",
+		key:            "",
+		expiration:     0 * time.Second,
+		fastForward:    0 * time.Second,
+		forecast:       &model.Forecast{DetailedForecast: "Sunny, with a high near 79. South wind 0 to 10 mph."},
+		expectedResult: &model.Forecast{DetailedForecast: "Sunny, with a high near 79. South wind 0 to 10 mph."},
+		expectedError:  nil,
+	},
+}
+
+func parseTime(t *testing.T, value string) time.Time {
+	parsedTime, err := time.Parse(time.RFC3339, value)
+	if err != nil {
+		t.Fatalf("time '%s' could not be parsed", err)
+	}
+	return parsedTime
+}
+
 func setupTestRedis(t *testing.T) (*service.RedisService, *miniredis.Miniredis, func()) {
 	mr, err := miniredis.Run()
 	if err != nil {
@@ -38,14 +83,13 @@ func TestSetAndGetForecast(t *testing.T) {
 		DetailedForecast: "Sunny, with a high near 79. South wind 0 to 10 mph.",
 	}
 
-	// Test SetForecast
 	err := redisService.SetForecast(ctx, key, forecast, time.Hour)
-	assert.NoError(t, err, "TestSetAndGetForecast: SetForecast assert no error")
+	assert.NoError(t, err, "Setting forecast should not return an error")
 
-	// Test GetForecast
 	retrievedForecast, err := redisService.GetForecast(ctx, key)
-	assert.NoError(t, err, "TestSetAndGetForecast: GetForecast assert no error")
-	assert.Equal(t, forecast, retrievedForecast)
+	if assert.NoError(t, err, "getting forecast should not return an error") {
+		assert.Equal(t, forecast, retrievedForecast)
+	}
 }
 
 func TestGetNonExistentForecast(t *testing.T) {
@@ -56,39 +100,35 @@ func TestGetNonExistentForecast(t *testing.T) {
 	key := "non_existent_forecast"
 
 	forecast, err := redisService.GetForecast(ctx, key)
-	assert.NoError(t, err, "Getting nonexistent key should not return an error")
-	assert.Nil(t, forecast, "Getting nonexistent key should return nil forecast")
+	if assert.NoError(t, err, "Getting nonexistent key should not return an error") {
+		assert.Nil(t, forecast, "Getting nonexistent key should return nil forecast")
+	}
 }
 
 func TestExpiration(t *testing.T) {
 	redisService, mr, cleanup := setupTestRedis(t)
 	defer cleanup()
 
+	const TIMEOUT = 10
+
 	ctx := context.Background()
 	key := "expiring_forecast"
 	forecast := &model.Forecast{DetailedForecast: "Test"}
 
-	t.Run("Key expires after set time", func(t *testing.T) {
-		err := redisService.SetForecast(ctx, key, forecast, 1*time.Second)
-		assert.NoError(t, err, "Setting forecast should not produce an error")
+	err := redisService.SetForecast(ctx, key, forecast, TIMEOUT*time.Second)
+	assert.NoError(t, err, "Setting forecast should not return an error")
 
-		mr.FastForward(2 * time.Second)
-
-		forecast, err = redisService.GetForecast(ctx, key)
-		assert.NoError(t, err, "Getting expired forecast should not produce an error")
-		assert.Nil(t, forecast, "Getting expired forecast should return nil forecast")
-	})
-
-	t.Run("Key does not expire before set time", func(t *testing.T) {
-		err := redisService.SetForecast(ctx, key, forecast, 3*time.Second)
-		assert.NoError(t, err, "Setting forecast should not produce an error")
-
-		mr.FastForward(1 * time.Second)
-
-		retrievedForecast, err := redisService.GetForecast(ctx, key)
-		assert.NoError(t, err, "Getting non-expired forecast should not produce an error")
+	retrievedForecast, err := redisService.GetForecast(ctx, key)
+	if assert.NoError(t, err, "Getting non-expired forecast should not produce an error") {
 		assert.Equal(t, forecast, retrievedForecast, "Retrieved forecast should match set forecast")
-	})
+	}
+
+	mr.FastForward((TIMEOUT + 1) * time.Second)
+
+	forecast, err = redisService.GetForecast(ctx, key)
+	if assert.NoError(t, err, "Getting expired forecast should not produce an error") {
+		assert.Nil(t, forecast, "Getting expired forecast should return nil forecast")
+	}
 }
 
 func TestSetForecastWithInvalidExpiration(t *testing.T) {
@@ -100,8 +140,8 @@ func TestSetForecastWithInvalidExpiration(t *testing.T) {
 	forecast := &model.Forecast{DetailedForecast: "Test"}
 
 	err := redisService.SetForecast(ctx, key, forecast, 25*time.Hour)
-	assert.Error(t, err, "TestSetForecastWithInavlidExpiration: GetForecast assert error expiration above max")
+	assert.Error(t, err, "Setting expiration above 24 hours should return an error")
 
 	err = redisService.SetForecast(ctx, key, forecast, 0)
-	assert.Error(t, err, "TestSetForecastWithInavlidExpiration: GetForecast assert error expiration below min")
+	assert.Error(t, err, "Setting 0 expiration or lower should return an error")
 }

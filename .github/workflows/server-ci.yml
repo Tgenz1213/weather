@@ -24,7 +24,9 @@ jobs:
     - name: Cache Go modules
       uses: actions/cache@v3
       with:
-        path: /go/pkg/mod
+        path: |
+          /go/pkg/mod
+          /tmp/bench-cache
         key: ${{ runner.os }}-go-${{ hashFiles('**/*.go') }}
         restore-keys: |
           ${{ runner.os }}-go-
@@ -36,3 +38,32 @@ jobs:
     - name: Run tests
       run: go test ./...
       working-directory: weather/server
+
+    - name: Run benchmarks
+      run: |
+        mkdir -p /tmp/bench-cache
+        go test -bench=. -benchmem -count=5 | tee /tmp/bench-cache/current.txt
+      working-directory: weather/server
+
+    - name: Compare benchmarks
+      run: |
+        go install golang.org/x/perf/cmd/benchstat@latest
+        if [ -f /tmp/bench-cache/baseline.txt ]; then
+          benchstat /tmp/bench-cache/baseline.txt /tmp/bench-cache/current.txt
+        else
+          echo "No baseline found - storing initial benchmarks"
+          cp /tmp/bench-cache/current.txt /tmp/bench-cache/baseline.txt
+        fi
+      working-directory: weather/server
+
+    - name: Upload benchmark comparison
+      uses: actions/upload-artifact@v3
+      with:
+        name: benchmark-comparison
+        path: /tmp/bench-cache/current.txt
+
+    - name: Cache benchmark results
+      uses: actions/cache@v3
+      with:
+        path: /tmp/bench-cache
+        key: ${{ runner.os }}-bench-${{ github.ref }}

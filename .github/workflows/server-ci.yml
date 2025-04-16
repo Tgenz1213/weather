@@ -14,15 +14,15 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4.2.2
 
     - name: Set up Go
-      uses: actions/setup-go@v3
+      uses: actions/setup-go@v4.2.0
       with:
         go-version: '1.18'
 
     - name: Cache Go modules
-      uses: actions/cache@v3
+      uses: actions/cache@v4.2.3
       with:
         path: |
           /go/pkg/mod
@@ -57,13 +57,13 @@ jobs:
       working-directory: weather/server
 
     - name: Upload benchmark comparison
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4.6.2
       with:
         name: benchmark-comparison
         path: /tmp/bench-cache/current.txt
 
     - name: Cache benchmark results
-      uses: actions/cache@v3
+      uses: actions/cache@v4.2.3
       with:
         path: /tmp/bench-cache
         key: ${{ runner.os }}-bench-${{ github.ref }}

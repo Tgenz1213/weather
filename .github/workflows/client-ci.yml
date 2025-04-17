@@ -5,12 +5,12 @@ on:
     branches:
       - main
     paths:
-      - 'weather/client/**'
+      - 'client/**'
   pull_request:
     branches:
       - main
     paths:
-      - 'weather/client/**'
+      - 'client/**'
   workflow_dispatch:   
 
 permissions:
@@ -29,8 +29,8 @@ jobs:
       with:
         path: |
           ~/.yarn/cache
-          weather/client/node_modules
-        key: ${{ runner.os }}-yarn-${{ hashFiles('weather/client/yarn.lock') }}
+          client/node_modules
+        key: ${{ runner.os }}-yarn-${{ hashFiles('client/yarn.lock') }}
         restore-keys: |
           ${{ runner.os }}-yarn-
           
@@ -41,12 +41,12 @@ jobs:
 
     - name: Install dependencies
       run: yarn install
-      working-directory: weather/client
+      working-directory: client
 
     - name: Run TypeScript linter
       run: yarn lint
-      working-directory: weather/client
+      working-directory: client
 
     - name: Run tests
       run: yarn test
-      working-directory: weather/client
+      working-directory: client

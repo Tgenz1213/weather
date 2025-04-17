@@ -3,10 +3,10 @@ name: Server CI
 on:
   push:
     paths:
-      - 'weather/server/**'
+      - 'server/**'
   pull_request:
     paths:
-      - 'weather/server/**'
+      - 'server/**'
   workflow_dispatch: 
 
 permissions:
@@ -37,17 +37,17 @@ jobs:
 
     - name: Install dependencies
       run: go mod tidy
-      working-directory: weather/server
+      working-directory: server
 
     - name: Run tests
       run: go test ./...
-      working-directory: weather/server
+      working-directory: server
 
     - name: Run benchmarks
       run: |
         mkdir -p /tmp/bench-cache
         go test -bench=. -benchmem -count=5 | tee /tmp/bench-cache/current.txt
-      working-directory: weather/server
+      working-directory: server
 
     - name: Compare benchmarks
       run: |
@@ -58,7 +58,7 @@ jobs:
           echo "No baseline found - storing initial benchmarks"
           cp /tmp/bench-cache/current.txt /tmp/bench-cache/baseline.txt
         fi
-      working-directory: weather/server
+      working-directory: server
 
     - name: Upload benchmark comparison
       uses: actions/upload-artifact@v4.6.2

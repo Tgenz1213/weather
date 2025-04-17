@@ -1,3 +1,4 @@
+import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { getWeather, WeatherData } from "../api";
 
 describe("getWeather", () => {
@@ -8,11 +9,19 @@ describe("getWeather", () => {
   };
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
+  });
+
+  beforeAll(() => {
+    vi.stubEnv("VITE_API_BASE_URL", "http://localhost:8080");
+  });
+
+  afterAll(() => {
+    vi.unstubAllEnvs();
   });
 
   it("returns weather data on successful API call", async () => {
-    global.fetch = jest.fn().mockResolvedValueOnce({
+    global.fetch = vi.fn().mockResolvedValueOnce({
       ok: true,
       json: async () => mockWeatherData,
     });
@@ -25,7 +34,7 @@ describe("getWeather", () => {
   });
 
   it("throws an error on HTTP error response", async () => {
-    global.fetch = jest.fn().mockResolvedValueOnce({
+    global.fetch = vi.fn().mockResolvedValueOnce({
       ok: false,
       status: 404,
     });
@@ -36,7 +45,7 @@ describe("getWeather", () => {
   });
 
   it("throws an error on network error", async () => {
-    global.fetch = jest.fn().mockRejectedValueOnce(new Error("Network error"));
+    global.fetch = vi.fn().mockRejectedValueOnce(new Error("Network error"));
 
     await expect(getWeather("123 Main St", "12345")).rejects.toThrow(
       "Failed to fetch weather data"
@@ -44,7 +53,7 @@ describe("getWeather", () => {
   });
 
   it("handles invalid data structure gracefully", async () => {
-    global.fetch = jest.fn().mockResolvedValueOnce({
+    global.fetch = vi.fn().mockResolvedValueOnce({
       ok: true,
       json: async () => ({}),
     });
@@ -54,7 +63,7 @@ describe("getWeather", () => {
 
   it("handles partial weather data gracefully", async () => {
     const partialData = { startTime: "2024-08-15T00:00:00Z" };
-    global.fetch = jest.fn().mockResolvedValueOnce({
+    global.fetch = vi.fn().mockResolvedValueOnce({
       ok: true,
       json: async () => partialData,
     });

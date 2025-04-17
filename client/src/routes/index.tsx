@@ -1,6 +1,6 @@
-import { PathConstants } from "./pathConstants";
-import WeatherForm from "../components/WeatherForm/WeatherForm";
-import PageNotFound from "../components/PageNotFound/PageNotFound";
+import { PathConstants } from "@routes/pathConstants";
+import WeatherForm from "@components/WeatherForm/WeatherForm";
+import PageNotFound from "@components/PageNotFound/PageNotFound";
 
 export const routes = [
   {

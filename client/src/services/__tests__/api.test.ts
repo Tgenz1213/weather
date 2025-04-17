@@ -1,5 +1,5 @@
 import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-import { getWeather, WeatherData } from "../api";
+import { getWeather, WeatherData } from "@services/api";
 
 describe("getWeather", () => {
   const mockWeatherData: WeatherData = {

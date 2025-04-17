@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { getWeather } from "../services/api";
+import { getWeather } from "@services/api";
 
 interface WeatherData {
   startTime: string;

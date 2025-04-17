@@ -3,10 +3,14 @@ name: Server CI
 on:
   push:
     paths:
-      - 'weather/server/**'
+      - 'server/**'
   pull_request:
     paths:
-      - 'weather/server/**'
+      - 'server/**'
+  workflow_dispatch: 
+
+permissions:
+  contents: read
 
 jobs:
   build-and-test:
@@ -14,15 +18,15 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4.2.2
+      uses: actions/checkout@v4
 
     - name: Set up Go
-      uses: actions/setup-go@v4.2.0
+      uses: actions/setup-go@v4
       with:
         go-version: '1.18'
 
     - name: Cache Go modules
-      uses: actions/cache@v4.2.3
+      uses: actions/cache@v4
       with:
         path: |
           /go/pkg/mod
@@ -33,17 +37,17 @@ jobs:
 
     - name: Install dependencies
       run: go mod tidy
-      working-directory: weather/server
+      working-directory: server
 
     - name: Run tests
       run: go test ./...
-      working-directory: weather/server
+      working-directory: server
 
     - name: Run benchmarks
       run: |
         mkdir -p /tmp/bench-cache
         go test -bench=. -benchmem -count=5 | tee /tmp/bench-cache/current.txt
-      working-directory: weather/server
+      working-directory: server
 
     - name: Compare benchmarks
       run: |
@@ -54,7 +58,7 @@ jobs:
           echo "No baseline found - storing initial benchmarks"
           cp /tmp/bench-cache/current.txt /tmp/bench-cache/baseline.txt
         fi
-      working-directory: weather/server
+      working-directory: server
 
     - name: Upload benchmark comparison
       uses: actions/upload-artifact@v4.6.2

@@ -6,6 +6,7 @@ import tseslint from "typescript-eslint"
 import pathAlias from "eslint-plugin-path-alias"
 import { resolve } from "node:path"
 import eslintConfigPrettier from "eslint-config-prettier"
+import simpleImportSort from "eslint-plugin-simple-import-sort"
 
 export default tseslint.config(
   eslint.configs.recommended,
@@ -15,6 +16,7 @@ export default tseslint.config(
   {
     plugins: {
       "path-alias": pathAlias,
+      "simple-import-sort": simpleImportSort,
       "@stylistic": stylistic,
     },
     rules: {
@@ -32,6 +34,8 @@ export default tseslint.config(
           exceptions: ["*.css"],
         },
       ],
+      "simple-import-sort/imports": "error",
+      "simple-import-sort/exports": "error",
       "@stylistic/brace-style": ["error", "1tbs"],
     },
   },

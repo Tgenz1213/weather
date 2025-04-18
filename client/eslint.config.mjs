@@ -5,11 +5,13 @@ import stylistic from "@stylistic/eslint-plugin"
 import tseslint from "typescript-eslint"
 import pathAlias from "eslint-plugin-path-alias"
 import { resolve } from "node:path"
+import eslintConfigPrettier from "eslint-config-prettier"
 
 export default tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
   stylistic.configs.recommended,
+  eslintConfigPrettier,
   {
     plugins: {
       "path-alias": pathAlias,
@@ -31,7 +33,6 @@ export default tseslint.config(
         },
       ],
       "@stylistic/brace-style": ["error", "1tbs"],
-      "@stylistic/quotes": ["error", "double"],
     },
   },
   { ignores: ["**/dist/**", "**/node_modules/**"] },

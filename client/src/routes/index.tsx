@@ -1,6 +1,6 @@
-import { PathConstants } from "@routes/pathConstants";
-import WeatherForm from "@components/WeatherForm/WeatherForm";
-import PageNotFound from "@components/PageNotFound/PageNotFound";
+import PageNotFound from "@components/PageNotFound/PageNotFound"
+import WeatherForm from "@components/WeatherForm/WeatherForm"
+import { PathConstants } from "@routes/pathConstants"
 
 export const routes = [
   {
@@ -8,4 +8,4 @@ export const routes = [
     element: <WeatherForm />,
     errorElement: <PageNotFound />,
   },
-];
+]

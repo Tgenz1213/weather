@@ -1,16 +1,24 @@
 // @ts-check
 
-import eslint from "@eslint/js";
-import tseslint from "typescript-eslint";
-import pathAlias from "eslint-plugin-path-alias";
-import { resolve } from "node:path";
+import { resolve } from "node:path"
+
+import eslint from "@eslint/js"
+import stylistic from "@stylistic/eslint-plugin"
+import eslintConfigPrettier from "eslint-config-prettier"
+import pathAlias from "eslint-plugin-path-alias"
+import simpleImportSort from "eslint-plugin-simple-import-sort"
+import tseslint from "typescript-eslint"
 
 export default tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
+  stylistic.configs.recommended,
+  eslintConfigPrettier,
   {
     plugins: {
       "path-alias": pathAlias,
+      "simple-import-sort": simpleImportSort,
+      "@stylistic": stylistic,
     },
     rules: {
       "path-alias/no-relative": [
@@ -24,10 +32,13 @@ export default tseslint.config(
             "@routes": resolve(import.meta.dirname, "./src/routes"),
             "@services": resolve(import.meta.dirname, "./src/services"),
           },
-          exceptions: ["*.css"]
+          exceptions: ["*.css"],
         },
       ],
+      "simple-import-sort/imports": "error",
+      "simple-import-sort/exports": "error",
+      "@stylistic/brace-style": ["error", "1tbs"],
     },
   },
-  { ignores: ["**/dist/**", "**/node_modules/**"] }
-);
+  { ignores: ["**/dist/**", "**/node_modules/**"] },
+)

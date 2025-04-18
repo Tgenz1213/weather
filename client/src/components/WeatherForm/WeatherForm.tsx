@@ -21,7 +21,7 @@ const WeatherForm: React.FC = () => {
           <input
             type="text"
             value={street}
-            onChange={e => setStreet(e.target.value)}
+            onChange={(e) => setStreet(e.target.value)}
             maxLength={100}
             required
           />
@@ -31,12 +31,14 @@ const WeatherForm: React.FC = () => {
           <input
             type="text"
             value={zip}
-            onChange={e => setZip(e.target.value)}
+            onChange={(e) => setZip(e.target.value)}
             size={5}
             required
           />
         </div>
-        <button type="submit" disabled={loading}>Get Forecast</button>
+        <button type="submit" disabled={loading}>
+          Get Forecast
+        </button>
       </form>
 
       {loading && <div>Loading...</div>}
@@ -45,19 +47,13 @@ const WeatherForm: React.FC = () => {
         <div className="weather-data">
           <h2>Weather Details</h2>
           <p>
-            <strong>Start Time:</strong>
-            {" "}
-            {weatherData.startTime}
+            <strong>Start Time:</strong> {weatherData.startTime}
           </p>
           <p>
-            <strong>End Time:</strong>
-            {" "}
-            {weatherData.endTime}
+            <strong>End Time:</strong> {weatherData.endTime}
           </p>
           <p>
-            <strong>Detailed Forecast:</strong>
-            {" "}
-            {weatherData.detailedForecast}
+            <strong>Detailed Forecast:</strong> {weatherData.detailedForecast}
           </p>
         </div>
       )}

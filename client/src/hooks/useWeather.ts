@@ -9,7 +9,7 @@ interface WeatherData {
 
 type FetchWeatherFunction = (
   street: string,
-  zip: string
+  zip: string,
 ) => Promise<WeatherData>
 
 export const useWeather = (

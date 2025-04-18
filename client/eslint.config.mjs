@@ -1,6 +1,7 @@
 // @ts-check
 
 import eslint from "@eslint/js";
+import stylistic from "@stylistic/eslint-plugin"
 import tseslint from "typescript-eslint";
 import pathAlias from "eslint-plugin-path-alias";
 import { resolve } from "node:path";
@@ -8,9 +9,11 @@ import { resolve } from "node:path";
 export default tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
+  stylistic.configs.recommended,
   {
     plugins: {
       "path-alias": pathAlias,
+      "@stylistic": stylistic
     },
     rules: {
       "path-alias/no-relative": [
@@ -27,6 +30,8 @@ export default tseslint.config(
           exceptions: ["*.css"]
         },
       ],
+      "@stylistic/brace-style": ["error", "1tbs"],
+      "@stylistic/quotes": ["error", "double"],
     },
   },
   { ignores: ["**/dist/**", "**/node_modules/**"] }

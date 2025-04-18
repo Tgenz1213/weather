@@ -1,12 +1,13 @@
 // @ts-check
 
+import { resolve } from "node:path"
+
 import eslint from "@eslint/js"
 import stylistic from "@stylistic/eslint-plugin"
-import tseslint from "typescript-eslint"
-import pathAlias from "eslint-plugin-path-alias"
-import { resolve } from "node:path"
 import eslintConfigPrettier from "eslint-config-prettier"
+import pathAlias from "eslint-plugin-path-alias"
 import simpleImportSort from "eslint-plugin-simple-import-sort"
+import tseslint from "typescript-eslint"
 
 export default tseslint.config(
   eslint.configs.recommended,

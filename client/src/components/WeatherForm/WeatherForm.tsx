@@ -1,5 +1,5 @@
-import React, { useState } from "react"
 import { useWeather } from "@hooks/useWeather"
+import React, { useState } from "react"
 
 const WeatherForm: React.FC = () => {
   const [street, setStreet] = useState<string>("")

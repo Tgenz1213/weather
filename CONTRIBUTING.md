@@ -27,6 +27,14 @@ Thank you for your interest in contributing! We welcome pull requests and sugges
 
 ---
 
+## Editor Settings
+
+- This repository provides shared VS Code workspace settings and extension recommendations in the `.vscode` directories at the root, `client`, and `server` levels.
+- Please use the recommended extensions to maintain consistency across the team.
+- To use these settings, open the `.vscode/weather.code-workspace` file in VS Code.
+
+---
+
 ## Workflow
 
 - We use **trunk-based development**: all changes are merged into the `main` branch via pull requests.

@@ -1,0 +1,19 @@
+{
+  "folders": [
+    {
+      "path": "../client"
+    },
+    {
+      "path": "../server"
+    },
+    {
+      "path": ".."
+    }
+  ],
+  "settings": {
+    "editor.formatOnSave": false,
+    "editor.formatOnPaste": false,
+    "editor.formatOnType": false,
+    "extensions.ignoreRecommendations": false
+  }
+}

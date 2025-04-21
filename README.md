@@ -60,6 +60,15 @@ This command will build and start both the frontend and backend services.
 
 8. You should now see the Weather Forecast application. Enter a street address (including the building number) and zip code to get the weather forecast.
 
+## Development Environment
+
+This project includes shared VS Code workspace settings and recommended extensions to help standardize and speed up environment setup. 
+
+- Open the project folder in VS Code to automatically use these settings.
+- You will be prompted to install recommended extensions for the root, client, and server workspaces.
+
+To get started, simply open the `.vscode/weather.code-workspace` file in VS Code.
+
 ## Troubleshooting
 
 - If you encounter any issues, ensure that ports 3000 and 8080 are not in use by other applications.

@@ -7,7 +7,7 @@ on:
   pull_request:
     paths:
       - 'server/**'
-  workflow_dispatch: 
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -38,6 +38,9 @@ jobs:
     - name: Install dependencies
       run: go mod tidy
       working-directory: server
+
+    - name: Golangci-lint
+      uses: golangci/golangci-lint-action@v8.0.0
 
     - name: Run tests
       run: go test ./...

@@ -28,7 +28,7 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-path-alias": "^2.1.0",
     "eslint-plugin-simple-import-sort": "^12.1.1",
-    "prettier": "3.5.3",
+    "prettier": "3.6.2",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.44.1",
     "vite": "^5.4.20",

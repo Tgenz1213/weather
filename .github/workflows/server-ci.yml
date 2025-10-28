@@ -40,7 +40,7 @@ jobs:
       working-directory: server
 
     - name: Golangci-lint
-      uses: golangci/golangci-lint-action@v8.0.0
+      uses: golangci/golangci-lint-action@v8
 
     - name: Run tests
       run: go test ./...

@@ -26,7 +26,7 @@ jobs:
         go-version: '1.22'
 
     - name: Cache Go modules
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         path: |
           /go/pkg/mod
@@ -70,7 +70,7 @@ jobs:
         path: /tmp/bench-cache/current.txt
 
     - name: Cache benchmark results
-      uses: actions/cache@v4.2.3
+      uses: actions/cache@v5
       with:
         path: /tmp/bench-cache
         key: ${{ runner.os }}-bench-${{ github.ref }}

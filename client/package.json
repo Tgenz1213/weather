@@ -10,7 +10,10 @@
     "test:watch": "vitest --watch",
     "start_development": "vite",
     "start_stage": "nginx -g 'daemon off;'",
-    "start_production": "nginx -g 'daemon off;'"
+    "start_production": "nginx -g 'daemon off;'",
+    "knip": "knip",
+    "knip:production": "knip --production",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "react": "^19.2.3",
@@ -28,6 +31,7 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-path-alias": "^2.1.0",
     "eslint-plugin-simple-import-sort": "^12.1.1",
+    "knip": "^5.82.1",
     "prettier": "3.8.0",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.53.1",
@@ -35,7 +39,7 @@
     "vitest": "^4.0.17"
   },
   "description": "client for weather app",
-  "main": "App.js",
+  "main": "src/main.tsx",
   "repository": "https://github.com/Tgenz1213/weather/tree/main/client",
   "author": "Timothy Genz",
   "license": "MIT"

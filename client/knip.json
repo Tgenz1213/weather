@@ -1,9 +1,8 @@
 {
     "$schema": "https://unpkg.com/knip@5/schema.json",
 	"entry": [
-        "src/App.tsx!",
-		"src/main.tsx!",
-		"src/**/*.{ts,tsx,js,jsx}!"
+        "src/App.tsx",
+		"src/main.tsx"
 	],
 	"ignore": [
 		"node_modules/**",
